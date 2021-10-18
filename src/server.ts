@@ -1,7 +1,8 @@
 import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
-import routes from './routes/market_data';
+import routes from './routes';
+import swaggerUi from 'swagger-ui-express';
 
 const SERVER_TYPE = 'Data Server';
 const router: Express = express();
@@ -12,6 +13,18 @@ router.use(morgan('dev'));
 router.use(express.urlencoded({ extended: false }));
 /** Takes care of JSON data */
 router.use(express.json());
+/** OpenAPI with swagger */
+router.use(
+	'/docs',
+	swaggerUi.serve,
+	swaggerUi.setup(undefined, {
+		swaggerOptions: {
+			url: '/swagger.json'
+		}
+	})
+);
+/** Serve static files */
+router.use(express.static('public'));
 
 //* API Rules
 router.use((req, res, next) => {
