@@ -10,6 +10,6 @@ router.get('/heartBeat', async (req, res) => {
 	return res.send(response);
 });
 
-router.use('market_data', MarketDataRouter);
+router.use('/market_data', MarketDataRouter);
 
 export default router;
