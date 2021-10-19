@@ -22,7 +22,7 @@ export class Coin {
 	num_market_pairs!: number;
 
 	@Column({ type: 'timestamp' })
-	date_added!: string;
+	date_added!: Date;
 
 	@Column()
 	max_supply!: number;
@@ -34,13 +34,13 @@ export class Coin {
 	total_supply!: number;
 
 	@ManyToOne(() => Platform, (platform: Platform) => platform.platform_id)
-	platform!: Platform;
+	platform!: number;
 
 	@Column()
 	cmc_rank!: number;
 
 	@Column({ type: 'timestamp' })
-	last_updated!: string;
+	last_updated!: Date;
 
 	@Column()
 	rank!: number;

@@ -3,6 +3,8 @@ import express, { Express } from 'express';
 import morgan from 'morgan';
 import routes from './routes';
 import swaggerUi from 'swagger-ui-express';
+import { createConnection } from 'typeorm';
+import dbConfig from './config/database';
 
 const SERVER_TYPE = 'Data Server';
 const router: Express = express();
@@ -53,4 +55,11 @@ router.use((req, res, next) => {
 
 const httpServer = http.createServer(router);
 const PORT: any = process.env.PORT ?? 3100;
-httpServer.listen(PORT, () => console.log(`${SERVER_TYPE} running on http://localhost:${PORT}/`));
+
+createConnection(dbConfig)
+	.then((_connection) => {
+		httpServer.listen(PORT, () => console.log(`${SERVER_TYPE} running on http://localhost:${PORT}/`));
+	})
+	.catch((err) => {
+		console.log(`KAPUT -_- db ain't working yo: ${err}`);
+	});

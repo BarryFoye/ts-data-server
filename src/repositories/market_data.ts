@@ -1,12 +1,11 @@
 import { getRepository } from 'typeorm';
-import { MarketData } from '../@types/app';
 import { Coin } from '../models';
 
 export interface IMarketDataPayload {
-	data: MarketData;
+	data: Coin;
 }
 
-export const getWeeklySnapshots = async (): Promise<Array<MarketData>> => {
+export const getWeeklySnapshots = async (): Promise<Array<Coin>> => {
 	const marketDataRepository = getRepository(Coin);
 	return marketDataRepository.find();
 };
