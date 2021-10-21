@@ -15,7 +15,7 @@ INSERT INTO platform (
     token_address
 ) VALUES (
     1, 
-    "ETHERIUM", 
-    "ETH", 
-    "/ETH", 
-    "AAAAABBBBBB");
+    'ETHERIUM', 
+    'ETH', 
+    '/ETH', 
+    'AAAAABBBBBB');
