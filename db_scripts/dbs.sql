@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: coin; Type: TABLE; Schema: public; Owner: root
+-- Name: coin; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.coin (
@@ -42,10 +42,10 @@ CREATE TABLE public.coin (
 );
 
 
-ALTER TABLE public.coin OWNER TO root;
+ALTER TABLE public.coin OWNER TO nacho;
 
 --
--- Name: coin_coin_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: coin_coin_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
 --
 
 CREATE SEQUENCE public.coin_coin_id_seq
@@ -57,17 +57,17 @@ CREATE SEQUENCE public.coin_coin_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coin_coin_id_seq OWNER TO root;
+ALTER TABLE public.coin_coin_id_seq OWNER TO nacho;
 
 --
--- Name: coin_coin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: coin_coin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
 ALTER SEQUENCE public.coin_coin_id_seq OWNED BY public.coin.coin_id;
 
 
 --
--- Name: coin_tags; Type: TABLE; Schema: public; Owner: root
+-- Name: coin_tags; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.coin_tags (
@@ -77,10 +77,10 @@ CREATE TABLE public.coin_tags (
 );
 
 
-ALTER TABLE public.coin_tags OWNER TO root;
+ALTER TABLE public.coin_tags OWNER TO nacho;
 
 --
--- Name: coin_tags_coin_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: coin_tags_coin_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
 --
 
 CREATE SEQUENCE public.coin_tags_coin_tag_id_seq
@@ -92,17 +92,17 @@ CREATE SEQUENCE public.coin_tags_coin_tag_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coin_tags_coin_tag_id_seq OWNER TO root;
+ALTER TABLE public.coin_tags_coin_tag_id_seq OWNER TO nacho;
 
 --
--- Name: coin_tags_coin_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: coin_tags_coin_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
 ALTER SEQUENCE public.coin_tags_coin_tag_id_seq OWNED BY public.coin_tags.coin_tag_id;
 
 
 --
--- Name: platform; Type: TABLE; Schema: public; Owner: root
+-- Name: platform; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.platform (
@@ -115,10 +115,10 @@ CREATE TABLE public.platform (
 );
 
 
-ALTER TABLE public.platform OWNER TO root;
+ALTER TABLE public.platform OWNER TO nacho;
 
 --
--- Name: platform_platform_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: platform_platform_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
 --
 
 CREATE SEQUENCE public.platform_platform_id_seq
@@ -130,17 +130,17 @@ CREATE SEQUENCE public.platform_platform_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.platform_platform_id_seq OWNER TO root;
+ALTER TABLE public.platform_platform_id_seq OWNER TO nacho;
 
 --
--- Name: platform_platform_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: platform_platform_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
 ALTER SEQUENCE public.platform_platform_id_seq OWNED BY public.platform.platform_id;
 
 
 --
--- Name: quotes; Type: TABLE; Schema: public; Owner: root
+-- Name: quotes; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.quotes (
@@ -158,10 +158,10 @@ CREATE TABLE public.quotes (
 );
 
 
-ALTER TABLE public.quotes OWNER TO root;
+ALTER TABLE public.quotes OWNER TO nacho;
 
 --
--- Name: quotes_quotes_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: quotes_quotes_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
 --
 
 CREATE SEQUENCE public.quotes_quotes_id_seq
@@ -173,17 +173,17 @@ CREATE SEQUENCE public.quotes_quotes_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quotes_quotes_id_seq OWNER TO root;
+ALTER TABLE public.quotes_quotes_id_seq OWNER TO nacho;
 
 --
--- Name: quotes_quotes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: quotes_quotes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
 ALTER SEQUENCE public.quotes_quotes_id_seq OWNED BY public.quotes.quotes_id;
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: root
+-- Name: tags; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.tags (
@@ -192,10 +192,10 @@ CREATE TABLE public.tags (
 );
 
 
-ALTER TABLE public.tags OWNER TO root;
+ALTER TABLE public.tags OWNER TO nacho;
 
 --
--- Name: tags_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: tags_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
 --
 
 CREATE SEQUENCE public.tags_tag_id_seq
@@ -207,52 +207,52 @@ CREATE SEQUENCE public.tags_tag_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tags_tag_id_seq OWNER TO root;
+ALTER TABLE public.tags_tag_id_seq OWNER TO nacho;
 
 --
--- Name: tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: tags_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
 ALTER SEQUENCE public.tags_tag_id_seq OWNED BY public.tags.tag_id;
 
 
 --
--- Name: coin coin_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: coin coin_id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin ALTER COLUMN coin_id SET DEFAULT nextval('public.coin_coin_id_seq'::regclass);
 
 
 --
--- Name: coin_tags coin_tag_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: coin_tags coin_tag_id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin_tags ALTER COLUMN coin_tag_id SET DEFAULT nextval('public.coin_tags_coin_tag_id_seq'::regclass);
 
 
 --
--- Name: platform platform_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: platform platform_id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.platform ALTER COLUMN platform_id SET DEFAULT nextval('public.platform_platform_id_seq'::regclass);
 
 
 --
--- Name: quotes quotes_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: quotes quotes_id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.quotes ALTER COLUMN quotes_id SET DEFAULT nextval('public.quotes_quotes_id_seq'::regclass);
 
 
 --
--- Name: tags tag_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: tags tag_id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.tags ALTER COLUMN tag_id SET DEFAULT nextval('public.tags_tag_id_seq'::regclass);
 
 
 --
--- Name: coin coin_pk; Type: CONSTRAINT; Schema: public; Owner: root
+-- Name: coin coin_pk; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin
@@ -260,7 +260,7 @@ ALTER TABLE ONLY public.coin
 
 
 --
--- Name: coin_tags coin_tags_pk; Type: CONSTRAINT; Schema: public; Owner: root
+-- Name: coin_tags coin_tags_pk; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin_tags
@@ -268,7 +268,7 @@ ALTER TABLE ONLY public.coin_tags
 
 
 --
--- Name: platform platform_pk; Type: CONSTRAINT; Schema: public; Owner: root
+-- Name: platform platform_pk; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.platform
@@ -276,7 +276,7 @@ ALTER TABLE ONLY public.platform
 
 
 --
--- Name: quotes quotes_pk; Type: CONSTRAINT; Schema: public; Owner: root
+-- Name: quotes quotes_pk; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.quotes
@@ -284,7 +284,7 @@ ALTER TABLE ONLY public.quotes
 
 
 --
--- Name: tags tags_pk; Type: CONSTRAINT; Schema: public; Owner: root
+-- Name: tags tags_pk; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.tags
@@ -292,7 +292,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: coin coin_fk0; Type: FK CONSTRAINT; Schema: public; Owner: root
+-- Name: coin coin_fk0; Type: FK CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin
@@ -300,7 +300,7 @@ ALTER TABLE ONLY public.coin
 
 
 --
--- Name: coin_tags coin_tags_fk0; Type: FK CONSTRAINT; Schema: public; Owner: root
+-- Name: coin_tags coin_tags_fk0; Type: FK CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin_tags
@@ -308,7 +308,7 @@ ALTER TABLE ONLY public.coin_tags
 
 
 --
--- Name: coin_tags coin_tags_fk1; Type: FK CONSTRAINT; Schema: public; Owner: root
+-- Name: coin_tags coin_tags_fk1; Type: FK CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin_tags
@@ -316,7 +316,7 @@ ALTER TABLE ONLY public.coin_tags
 
 
 --
--- Name: quotes quotes_fk0; Type: FK CONSTRAINT; Schema: public; Owner: root
+-- Name: quotes quotes_fk0; Type: FK CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.quotes
