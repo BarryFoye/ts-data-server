@@ -5,6 +5,7 @@
 		"outDir": "./build",
 		"rootDir": "./src",
 		"emitDecoratorMetadata": true, // for typeorm
-		"experimentalDecorators": true // for typeorm
+		"experimentalDecorators": true, // for typeorm
+		"sourceMap": true
 	}
 }
