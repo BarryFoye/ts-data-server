@@ -1,5 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-import { Coin, Platform, CoinTags, Quotes, Tags } from '../models';
+import { Coin, Platform, CoinTag, Quote, Tag } from '../models';
 
 const config: ConnectionOptions = {
 	type: 'postgres',
@@ -8,7 +8,7 @@ const config: ConnectionOptions = {
 	username: process.env.POSTGRES_USER || 'nacho',
 	password: process.env.POSTGRES_PASSWORD || 'nacho',
 	database: process.env.POSTGRES_DB || 'cmc_data',
-	entities: [Coin, Platform, CoinTags, Quotes, Tags],
+	entities: [Coin, Platform, CoinTag, Quote, Tag],
 	synchronize: false
 };
 

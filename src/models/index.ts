@@ -1,7 +1,7 @@
 import { Coin } from './Coin';
 import { Platform } from './Platform';
-import { CoinTags } from './CoinTags';
-import { Quotes } from './Quotes';
-import { Tags } from './Tags';
+import { CoinTag } from './CoinTag';
+import { Quote } from './Quote';
+import { Tag } from './Tag';
 
-export { Coin, Platform, CoinTags, Quotes, Tags };
+export { Coin, Platform, CoinTag, Quote, Tag };

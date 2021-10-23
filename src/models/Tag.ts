@@ -1,15 +1,15 @@
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CoinTags } from './CoinTags';
+import { CoinTag } from './CoinTag';
 
-@Index('tags_pk', ['tagId'], { unique: true })
-@Entity('tags', { schema: 'public' })
-export class Tags {
+@Index('tag_pk', ['tagId'], { unique: true })
+@Entity('tag', { schema: 'public' })
+export class Tag {
 	@PrimaryGeneratedColumn({ type: 'integer', name: 'tag_id' })
 	tagId!: number;
 
 	@Column('character varying', { name: 'tag', length: 255 })
 	tag!: string;
 
-	@OneToMany(() => CoinTags, (coinTags) => coinTags.tag)
-	coinTags!: CoinTags[];
+	@OneToMany(() => CoinTag, (coinTag) => coinTag.tag)
+	coinTags!: CoinTag[];
 }

@@ -1,11 +1,11 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Coin } from './Coin';
 
-@Index('quotes_pk', ['quotesId'], { unique: true })
-@Entity('quotes', { schema: 'public' })
-export class Quotes {
-	@PrimaryGeneratedColumn({ type: 'integer', name: 'quotes_id' })
-	quotesId!: number;
+@Index('quote_pk', ['quoteId'], { unique: true })
+@Entity('quote', { schema: 'public' })
+export class Quote {
+	@PrimaryGeneratedColumn({ type: 'integer', name: 'quote_id' })
+	quoteId!: number;
 
 	@Column('character varying', { name: 'currency', length: 255 })
 	currency!: string;
@@ -28,8 +28,8 @@ export class Quotes {
 	@Column('numeric', { name: 'market_cap' })
 	marketCap!: string;
 
-	@Column('numeric', { name: 'fully_diluted_mc', nullable: true })
-	fullyDilutedMc!: string | null;
+	@Column('numeric', { name: 'fully_diluted_mc' })
+	fullyDilutedMc!: string;
 
 	@Column('date', { name: 'last_updated' })
 	lastUpdated!: string;

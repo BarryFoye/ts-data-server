@@ -19,7 +19,7 @@ export class Platform {
 	@Column('character varying', { name: 'slug', length: 255 })
 	slug!: string;
 
-	@Column('character varying', { name: 'token_address', length: 255 })
+	@Column('text', { name: 'token_address' })
 	tokenAddress!: string;
 
 	@OneToMany(() => Coin, (coin) => coin.platform)

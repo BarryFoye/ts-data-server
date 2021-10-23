@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Platform } from './Platform';
-import { CoinTags } from './CoinTags';
-import { Quotes } from './Quotes';
+import { CoinTag } from './CoinTag';
+import { Quote } from './Quote';
 
 @Index('coin_pk', ['coinId'], { unique: true })
 @Entity('coin', { schema: 'public' })
@@ -27,14 +27,14 @@ export class Coin {
 	@Column('date', { name: 'date_added' })
 	dateAdded!: string;
 
-	@Column('integer', { name: 'max_supply', nullable: true })
-	maxSupply!: number | null;
+	@Column('integer', { name: 'max_supply' })
+	maxSupply!: number;
 
-	@Column('integer', { name: 'circulating_supply' })
-	circulatingSupply!: number;
+	@Column('numeric', { name: 'circulating_supply' })
+	circulatingSupply!: string;
 
-	@Column('integer', { name: 'total_supply' })
-	totalSupply!: number;
+	@Column('numeric', { name: 'total_supply' })
+	totalSupply!: string;
 
 	@Column('integer', { name: 'cmc_rank' })
 	cmcRank!: number;
@@ -42,16 +42,13 @@ export class Coin {
 	@Column('date', { name: 'last_updated' })
 	lastUpdated!: string;
 
-	@Column('integer', { name: 'rank' })
-	rank!: number;
-
 	@ManyToOne(() => Platform, (platform) => platform.coins)
-	@JoinColumn([{ name: 'platform', referencedColumnName: 'platformId' }])
+	@JoinColumn([{ name: 'platform_id', referencedColumnName: 'platformId' }])
 	platform!: Platform;
 
-	@OneToMany(() => CoinTags, (coinTags) => coinTags.coin)
-	coinTags!: CoinTags[];
+	@OneToMany(() => CoinTag, (coinTag) => coinTag.coin)
+	coinTags!: CoinTag[];
 
-	@OneToMany(() => Quotes, (quotes) => quotes.coin)
-	quotes!: Quotes[];
+	@OneToMany(() => Quote, (quote) => quote.coin)
+	quotes!: Quote[];
 }
