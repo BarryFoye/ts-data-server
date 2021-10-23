@@ -24,13 +24,13 @@ The main purpose is to democratise data across various apps within the nacho-ban
 
 -   TypeScript - Version 3.8.3
 -   PostgreSQL - Version 12.8
--   Axios - Version 0.22.0,
--   express - Version 4.17.1,
--   morgan - Version 1.10.0,
--   pg - Version 8.7.1,
--   reflect-metadata - Version 0.1.13,
--   swagger-ui-express - Version 4.1.6,
--   tsoa - Version 3.13.0,
+-   Axios - Version 0.22.0
+-   express - Version 4.17.1
+-   morgan - Version 1.10.0
+-   pg - Version 8.7.1
+-   reflect-metadata - Version 0.1.13
+-   swagger-ui-express - Version 4.1.6
+-   tsoa - Version 3.13.0
 -   typeorm - Version 0.2.38
 
 ## Features
