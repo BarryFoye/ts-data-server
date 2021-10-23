@@ -14,12 +14,11 @@
 
 ## General Information
 
--   Provide general information about your project here.
-    This is a component of the nacho-banana app designed to expose data as a service without exposing the underlying technologies. Therefore it allows for additional database technologies and structures to evolve whilst respecting a single common interface for upstream requestors of data.
--   What problem does it (intend to) solve?
-    Generally this service has two functions, 1. To provide data as a service to requesting applications and 2. to abstract the data being requested from the underlying technologies used to provide the data.
--   What is the purpose of your project?
-    The main purpose is to democratise data across various apps within the nacho-banana eco system. It is the focalpoint where data is served from.
+This is a component of the nacho-banana app designed to expose data as a service without exposing the underlying technologies. Therefore it allows for additional database technologies and structures to evolve whilst respecting a single common interface for upstream requestors of data.
+
+Generally this service has two functions, 1. To provide data as a service to requesting applications and 2. to abstract the data being requested from the underlying technologies used to provide the data.
+
+The main purpose is to democratise data across various apps within the nacho-banana eco system. It is the focalpoint where data is served from.
 
 ## Technologies Used
 
