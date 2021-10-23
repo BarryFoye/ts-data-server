@@ -1,8 +1,11 @@
 {
-    "extends": "@tsconfig/node14/tsconfig.json",
-    "compilerOptions": {
-        "declaration": true,
-        "outDir": "./build",
-        "rootDir": "./src"
-    }
+	"extends": "@tsconfig/node14/tsconfig.json",
+	"compilerOptions": {
+		"declaration": true,
+		"outDir": "./build",
+		"rootDir": "./src",
+		"emitDecoratorMetadata": true, // for typeorm
+		"experimentalDecorators": true, // for typeorm
+		"sourceMap": true
+	}
 }
