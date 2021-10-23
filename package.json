@@ -8,7 +8,7 @@
 		"start": "node build/index.js",
 		"predev": "npm run swagger",
 		"prebuild": "npm run swagger",
-		"build": "rm -rf build/ && pretttier --write src/ && tsc",
+		"build": "rm -rf build/ && prettier --write src/ && tsc",
 		"dev": "nodemon --exec ./node_modules/.bin/ts-node ./src/server.ts",
 		"dev1": "concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
 		"swagger": "tsoa spec",
