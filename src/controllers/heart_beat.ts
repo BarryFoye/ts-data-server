@@ -9,7 +9,7 @@ export default class HeartBeatController {
 	@Get('/')
 	public async getMessage(): Promise<HBResponse> {
 		return {
-			message: "I'm alive"
+			message: "I'm alive and kicking!"
 		};
 	}
 }
