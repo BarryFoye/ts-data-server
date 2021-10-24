@@ -35,8 +35,6 @@ The main purpose is to democratise data across various apps within the nacho-ban
 
 ## Features
 
-List the ready features here:
-
 -   TypeORM integration
 -   Swagger integration
 
