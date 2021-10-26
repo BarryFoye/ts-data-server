@@ -58,7 +58,7 @@ const PORT: any = process.env.PORT ?? 3100;
 
 createConnection(dbConfig)
 	.then((_connection) => {
-		httpServer.listen(PORT, () => console.log(`${SERVER_TYPE} running on http://localhost:${PORT}/`));
+		httpServer.listen(PORT, () => console.log(`${SERVER_TYPE} running on http://localhost:${PORT}/heartBeat`));
 	})
 	.catch((err) => {
 		console.log(`KAPUT -_- db ain't working yo: ${err}`);
