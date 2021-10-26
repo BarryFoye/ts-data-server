@@ -1,4 +1,4 @@
-# Project Name
+# Nacho Banana
 
 > This service app acts as a data interface. It is designed to work within a wider eco system and only be exposed to systems and services within the systems boundary. It is not intended to be exposed to the outside world aka the internet
 
@@ -9,6 +9,7 @@
 -   [Features](#features)
 -   [Setup](#setup)
 -   [Usage](#usage)
+-   [Using Docker](#using-docker)
 -   [Room for Improvement](#room-for-improvement)
 <!-- * [License](#license) -->
 
@@ -16,9 +17,12 @@
 
 This is a component of the nacho-banana app designed to expose data as a service without exposing the underlying technologies. Therefore it allows for additional database technologies and structures to evolve whilst respecting a single common interface for upstream requestors of data.
 
-Generally this service has two functions, 1. To provide data as a service to requesting applications and 2. to abstract the data being requested from the underlying technologies used to provide the data.
+Generally this service has two functions:
 
-The main purpose is to democratise data across various apps within the nacho-banana eco system. It is the focalpoint where data is served from.
+1. To provide data as a service to requesting applications and
+2. To abstract the data being requested from the underlying technologies used to provide the data.
+
+The main purpose is to democratise data across various apps within the nacho-banana eco system. It is the focal point where data is served from.
 
 ## Technologies Used
 
@@ -81,6 +85,37 @@ npm run start
 ```
 
 This then starts the production app. You can confirm this again by navigating to [swagger docs](http://localhost:3100/docs/).
+
+## Using Docker
+
+Here you can use docker for both dev and depolyment to production.
+
+### Dev instructions
+
+The dev environment is based off the Dockerfile.dev
+To run the dev environment use:
+
+```docker
+docker-compose up
+```
+
+Any changes made to the /src folder will automatically update in the docker environment.
+
+### Prod instructions
+
+The prod environment is based off the Dockerfile
+
+First we build the image:
+
+```docker
+docker build -t prod-data .
+```
+
+We then run the image:
+
+```docker
+docker run -p 3100:3100 prod-data
+```
 
 ## Room for Improvement
 
