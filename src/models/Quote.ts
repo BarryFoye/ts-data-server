@@ -1,40 +1,72 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Coin } from './Coin';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Market } from "./Market";
 
-@Index('quote_pk', ['quoteId'], { unique: true })
-@Entity('quote', { schema: 'public' })
+@Index("quote_pkey", ["id"], { unique: true })
+@Index("ix_quote_id", ["id"], {})
+@Index("ix_quote_market_id", ["marketId"], {})
+@Entity("quote", { schema: "public" })
 export class Quote {
-	@PrimaryGeneratedColumn({ type: 'integer', name: 'quote_id' })
-	quoteId!: number;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id!: number;
 
-	@Column('character varying', { name: 'currency', length: 255 })
-	currency!: string;
+  @Column("integer", { name: "market_id", nullable: true })
+  marketId!: number | null;
 
-	@Column('numeric', { name: 'price' })
-	price!: string;
+  @Column("character varying", { name: "currency", nullable: true })
+  currency!: string | null;
 
-	@Column('numeric', { name: 'vol_24' })
-	vol_24!: string;
+  @Column("double precision", { name: "price", precision: 53 })
+  price!: number;
 
-	@Column('numeric', { name: 'pct_change_1h' })
-	pctChange_1h!: string;
+  @Column("double precision", { name: "vol_24", nullable: true, precision: 53 })
+  vol_24!: number | null;
 
-	@Column('numeric', { name: 'pct_change_24h' })
-	pctChange_24h!: string;
+  @Column("double precision", {
+    name: "pct_change_1h",
+    nullable: true,
+    precision: 53,
+  })
+  pctChange_1h!: number | null;
 
-	@Column('numeric', { name: 'pct_change_7d' })
-	pctChange_7d!: string;
+  @Column("double precision", {
+    name: "pct_change_24h",
+    nullable: true,
+    precision: 53,
+  })
+  pctChange_24h!: number | null;
 
-	@Column('numeric', { name: 'market_cap' })
-	marketCap!: string;
+  @Column("double precision", {
+    name: "pct_change_7d",
+    nullable: true,
+    precision: 53,
+  })
+  pctChange_7d!: number | null;
 
-	@Column('numeric', { name: 'fully_diluted_mc' })
-	fullyDilutedMc!: string;
+  @Column("double precision", {
+    name: "market_cap",
+    nullable: true,
+    precision: 53,
+  })
+  marketCap!: number | null;
 
-	@Column('date', { name: 'last_updated' })
-	lastUpdated!: string;
+  @Column("double precision", {
+    name: "fully_diluted_mc",
+    nullable: true,
+    precision: 53,
+  })
+  fullyDilutedMc!: number | null;
 
-	@ManyToOne(() => Coin, (coin) => coin.quotes)
-	@JoinColumn([{ name: 'coin_id', referencedColumnName: 'coinId' }])
-	coin!: Coin;
+  @Column("timestamp without time zone", { name: "last_updated" })
+  lastUpdated!: Date;
+
+  @ManyToOne(() => Market, (market) => market.quotes)
+  @JoinColumn([{ name: "market_id", referencedColumnName: "id" }])
+  market!: Market;
 }

@@ -1,15 +1,30 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CoinTag } from './CoinTag';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Market } from "./Market";
+import { TagRef } from "./TagRef";
 
-@Index('tag_pk', ['tagId'], { unique: true })
-@Entity('tag', { schema: 'public' })
+@Index("ix_tag_id", ["id"], {})
+@Index("tag_pkey", ["id"], { unique: true })
+@Index("ix_tag_tag_id", ["tagId"], {})
+@Entity("tag", { schema: "public" })
 export class Tag {
-	@PrimaryGeneratedColumn({ type: 'integer', name: 'tag_id' })
-	tagId!: number;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
+  id!: number;
 
-	@Column('character varying', { name: 'tag', length: 255 })
-	tag!: string;
+  @Column("integer", { name: "tag_id" })
+  tagId!: number;
 
-	@OneToMany(() => CoinTag, (coinTag) => coinTag.tag)
-	coinTags!: CoinTag[];
+  @ManyToMany(() => Market, (market) => market.tags)
+  markets!: Market[];
+
+  @ManyToOne(() => TagRef, (tagRef) => tagRef.tags)
+  @JoinColumn([{ name: "tag_id", referencedColumnName: "id" }])
+  tag!: TagRef;
 }
