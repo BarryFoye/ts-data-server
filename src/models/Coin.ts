@@ -1,54 +1,27 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Platform } from './Platform';
-import { CoinTag } from './CoinTag';
-import { Quote } from './Quote';
+import { Column, Entity, Index, OneToMany } from "typeorm";
+import { Market } from "./Market";
+import { Platform } from "./Platform";
 
-@Index('coin_pk', ['coinId'], { unique: true })
-@Entity('coin', { schema: 'public' })
+@Index("ix_coin_id", ["id"], {})
+@Index("coin_pkey", ["id"], { unique: true })
+@Index("coin_slug_key", ["slug"], { unique: true })
+@Entity("coin", { schema: "public" })
 export class Coin {
-	@PrimaryGeneratedColumn({ type: 'integer', name: 'coin_id' })
-	coinId!: number;
+  @Column("integer", { primary: true, name: "id" })
+  id!: number;
 
-	@Column('integer', { name: 'id' })
-	id!: number;
+  @Column("character varying", { name: "name" })
+  name!: string;
 
-	@Column('character varying', { name: 'name', length: 255 })
-	name!: string;
+  @Column("character varying", { name: "symbol" })
+  symbol!: string;
 
-	@Column('character varying', { name: 'symbol', length: 255 })
-	symbol!: string;
+  @Column("character varying", { name: "slug", unique: true })
+  slug!: string;
 
-	@Column('character varying', { name: 'slug', length: 255 })
-	slug!: string;
+  @OneToMany(() => Market, (market) => market.coin)
+  markets!: Market[];
 
-	@Column('integer', { name: 'num_market_pairs', nullable: true })
-	numMarketPairs!: number | null;
-
-	@Column('date', { name: 'date_added' })
-	dateAdded!: string;
-
-	@Column('integer', { name: 'max_supply' })
-	maxSupply!: number;
-
-	@Column('numeric', { name: 'circulating_supply' })
-	circulatingSupply!: string;
-
-	@Column('numeric', { name: 'total_supply' })
-	totalSupply!: string;
-
-	@Column('integer', { name: 'cmc_rank' })
-	cmcRank!: number;
-
-	@Column('date', { name: 'last_updated' })
-	lastUpdated!: string;
-
-	@ManyToOne(() => Platform, (platform) => platform.coins)
-	@JoinColumn([{ name: 'platform_id', referencedColumnName: 'platformId' }])
-	platform!: Platform;
-
-	@OneToMany(() => CoinTag, (coinTag) => coinTag.coin)
-	coinTags!: CoinTag[];
-
-	@OneToMany(() => Quote, (quote) => quote.coin)
-	quotes!: Quote[];
+  @OneToMany(() => Platform, (platform) => platform.coin)
+  platforms!: Platform[];
 }

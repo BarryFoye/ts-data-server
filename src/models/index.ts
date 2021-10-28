@@ -1,7 +1,9 @@
+
 import { Coin } from './Coin';
+import { Market } from './Market';
 import { Platform } from './Platform';
-import { CoinTag } from './CoinTag';
 import { Quote } from './Quote';
 import { Tag } from './Tag';
+import { TagRef } from './TagRef';
 
-export { Coin, Platform, CoinTag, Quote, Tag };
+export { Coin, Market, Platform, Quote, Tag, TagRef };
