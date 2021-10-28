@@ -1,9 +1,9 @@
 import { ConnectionOptions } from 'typeorm';
-import { Coin, Market, Platform, Tag, Quote, TagRef } from '../models'
+import { Coin, Market, Platform, Tag, Quote, TagRef } from '../models';
 
 const config: ConnectionOptions = {
 	type: 'postgres',
-	host: process.env.POSTGRES_HOST || '172.19.0.2',
+	host: process.env.POSTGRES_HOST || 'host',
 	port: Number(process.env.POSTGRES_PORT) || 5432,
 	username: process.env.POSTGRES_USER || 'nacho',
 	password: process.env.POSTGRES_PASSWORD || 'nacho',

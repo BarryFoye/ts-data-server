@@ -1,4 +1,3 @@
-
 import { Coin } from './Coin';
 import { Market } from './Market';
 import { Platform } from './Platform';
