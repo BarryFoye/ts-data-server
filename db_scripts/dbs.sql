@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.8 (Ubuntu 12.8-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.8 (Ubuntu 12.8-0ubuntu0.20.04.1)
+-- Dumped from database version 14.0
+-- Dumped by pg_dump version 14.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,33 +21,71 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: coin; Type: TABLE; Schema: public; Owner: postgres
+-- Name: coin; Type: TABLE; Schema: public; Owner: nacho
 --
 
 CREATE TABLE public.coin (
-    coin_id integer NOT NULL,
-    platform_id integer NOT NULL,
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    symbol character varying(255) NOT NULL,
-    slug character varying(255) NOT NULL,
-    num_market_pairs integer,
-    date_added date NOT NULL,
-    max_supply integer NOT NULL,
-    circulating_supply numeric NOT NULL,
-    total_supply numeric NOT NULL,
-    cmc_rank integer NOT NULL,
-    last_updated date NOT NULL
+    name character varying NOT NULL,
+    symbol character varying(10) NOT NULL,
+    slug character varying(50) NOT NULL,
+    max_supply bigint,
+    date_added timestamp without time zone
 );
 
 
-ALTER TABLE public.coin OWNER TO postgres;
+ALTER TABLE public.coin OWNER TO nacho;
 
 --
--- Name: coin_coin_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: COLUMN coin.name; Type: COMMENT; Schema: public; Owner: nacho
 --
 
-CREATE SEQUENCE public.coin_coin_id_seq
+COMMENT ON COLUMN public.coin.name IS 'Currency name';
+
+
+--
+-- Name: COLUMN coin.symbol; Type: COMMENT; Schema: public; Owner: nacho
+--
+
+COMMENT ON COLUMN public.coin.symbol IS 'Currency symbol';
+
+
+--
+-- Name: COLUMN coin.date_added; Type: COMMENT; Schema: public; Owner: nacho
+--
+
+COMMENT ON COLUMN public.coin.date_added IS 'Date when added to the market';
+
+
+--
+-- Name: market_stats; Type: TABLE; Schema: public; Owner: nacho
+--
+
+CREATE TABLE public.market_stats (
+    id integer NOT NULL,
+    coin_id integer NOT NULL,
+    num_market_pairs integer,
+    circulating_supply double precision,
+    total_supply double precision,
+    cmc_rank integer,
+    last_updated timestamp without time zone
+);
+
+
+ALTER TABLE public.market_stats OWNER TO nacho;
+
+--
+-- Name: COLUMN market_stats.coin_id; Type: COMMENT; Schema: public; Owner: nacho
+--
+
+COMMENT ON COLUMN public.market_stats.coin_id IS 'Foreign key for the ''coin'' table';
+
+
+--
+-- Name: market_stats_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
+--
+
+CREATE SEQUENCE public.market_stats_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -56,33 +94,110 @@ CREATE SEQUENCE public.coin_coin_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coin_coin_id_seq OWNER TO postgres;
+ALTER TABLE public.market_stats_id_seq OWNER TO nacho;
 
 --
--- Name: coin_coin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: market_stats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
-ALTER SEQUENCE public.coin_coin_id_seq OWNED BY public.coin.coin_id;
+ALTER SEQUENCE public.market_stats_id_seq OWNED BY public.market_stats.id;
 
 
 --
--- Name: coin_tag; Type: TABLE; Schema: public; Owner: postgres
+-- Name: platform; Type: TABLE; Schema: public; Owner: nacho
 --
 
-CREATE TABLE public.coin_tag (
-    coin_tag_id integer NOT NULL,
+CREATE TABLE public.platform (
+    id integer NOT NULL,
+    platform_id integer NOT NULL,
+    token_address bytea
+);
+
+
+ALTER TABLE public.platform OWNER TO nacho;
+
+--
+-- Name: quote; Type: TABLE; Schema: public; Owner: nacho
+--
+
+CREATE TABLE public.quote (
+    id integer NOT NULL,
+    coin_id integer NOT NULL,
+    currency character varying(10) NOT NULL,
+    price double precision NOT NULL,
+    vol_24 double precision,
+    pct_change_1h double precision,
+    pct_change_24h double precision,
+    pct_change_7d double precision,
+    market_cap double precision,
+    fully_diluted_mc double precision,
+    last_updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.quote OWNER TO nacho;
+
+--
+-- Name: COLUMN quote.currency; Type: COMMENT; Schema: public; Owner: nacho
+--
+
+COMMENT ON COLUMN public.quote.currency IS 'Name of the currency';
+
+
+--
+-- Name: quote_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
+--
+
+CREATE SEQUENCE public.quote_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quote_id_seq OWNER TO nacho;
+
+--
+-- Name: quote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
+--
+
+ALTER SEQUENCE public.quote_id_seq OWNED BY public.quote.id;
+
+
+--
+-- Name: tag; Type: TABLE; Schema: public; Owner: nacho
+--
+
+CREATE TABLE public.tag (
+    id integer NOT NULL,
     coin_id integer NOT NULL,
     tag_id integer NOT NULL
 );
 
 
-ALTER TABLE public.coin_tag OWNER TO postgres;
+ALTER TABLE public.tag OWNER TO nacho;
 
 --
--- Name: coin_tag_coin_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: COLUMN tag.coin_id; Type: COMMENT; Schema: public; Owner: nacho
 --
 
-CREATE SEQUENCE public.coin_tag_coin_tag_id_seq
+COMMENT ON COLUMN public.tag.coin_id IS 'Foreign key for ''coin'' table';
+
+
+--
+-- Name: COLUMN tag.tag_id; Type: COMMENT; Schema: public; Owner: nacho
+--
+
+COMMENT ON COLUMN public.tag.tag_id IS 'Foreign key for ''tag_ref'' table';
+
+
+--
+-- Name: tag_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
+--
+
+CREATE SEQUENCE public.tag_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -91,36 +206,39 @@ CREATE SEQUENCE public.coin_tag_coin_tag_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.coin_tag_coin_tag_id_seq OWNER TO postgres;
+ALTER TABLE public.tag_id_seq OWNER TO nacho;
 
 --
--- Name: coin_tag_coin_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
-ALTER SEQUENCE public.coin_tag_coin_tag_id_seq OWNED BY public.coin_tag.coin_tag_id;
+ALTER SEQUENCE public.tag_id_seq OWNED BY public.tag.id;
 
 
 --
--- Name: platform; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tag_ref; Type: TABLE; Schema: public; Owner: nacho
 --
 
-CREATE TABLE public.platform (
-    platform_id integer NOT NULL,
+CREATE TABLE public.tag_ref (
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    symbol character varying(255) NOT NULL,
-    slug character varying(255) NOT NULL,
-    token_address text NOT NULL
+    name character varying NOT NULL
 );
 
 
-ALTER TABLE public.platform OWNER TO postgres;
+ALTER TABLE public.tag_ref OWNER TO nacho;
 
 --
--- Name: platform_platform_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: COLUMN tag_ref.name; Type: COMMENT; Schema: public; Owner: nacho
 --
 
-CREATE SEQUENCE public.platform_platform_id_seq
+COMMENT ON COLUMN public.tag_ref.name IS 'Tag name';
+
+
+--
+-- Name: tag_ref_id_seq; Type: SEQUENCE; Schema: public; Owner: nacho
+--
+
+CREATE SEQUENCE public.tag_ref_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -129,197 +247,196 @@ CREATE SEQUENCE public.platform_platform_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.platform_platform_id_seq OWNER TO postgres;
+ALTER TABLE public.tag_ref_id_seq OWNER TO nacho;
 
 --
--- Name: platform_platform_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tag_ref_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nacho
 --
 
-ALTER SEQUENCE public.platform_platform_id_seq OWNED BY public.platform.platform_id;
-
-
---
--- Name: quote; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.quote (
-    quote_id integer NOT NULL,
-    coin_id integer NOT NULL,
-    currency character varying(255) NOT NULL,
-    price numeric NOT NULL,
-    vol_24 numeric NOT NULL,
-    pct_change_1h numeric NOT NULL,
-    pct_change_24h numeric NOT NULL,
-    pct_change_7d numeric NOT NULL,
-    market_cap numeric NOT NULL,
-    fully_diluted_mc numeric NOT NULL,
-    last_updated date NOT NULL
-);
-
-
-ALTER TABLE public.quote OWNER TO postgres;
-
---
--- Name: quote_quote_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.quote_quote_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.quote_quote_id_seq OWNER TO postgres;
-
---
--- Name: quote_quote_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.quote_quote_id_seq OWNED BY public.quote.quote_id;
+ALTER SEQUENCE public.tag_ref_id_seq OWNED BY public.tag_ref.id;
 
 
 --
--- Name: tag; Type: TABLE; Schema: public; Owner: postgres
+-- Name: market_stats id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
-CREATE TABLE public.tag (
-    tag_id integer NOT NULL,
-    tag character varying(255) NOT NULL
-);
-
-
-ALTER TABLE public.tag OWNER TO postgres;
-
---
--- Name: tag_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tag_tag_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tag_tag_id_seq OWNER TO postgres;
-
---
--- Name: tag_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tag_tag_id_seq OWNED BY public.tag.tag_id;
+ALTER TABLE ONLY public.market_stats ALTER COLUMN id SET DEFAULT nextval('public.market_stats_id_seq'::regclass);
 
 
 --
--- Name: coin coin_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: quote id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.coin ALTER COLUMN coin_id SET DEFAULT nextval('public.coin_coin_id_seq'::regclass);
-
-
---
--- Name: coin_tag coin_tag_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.coin_tag ALTER COLUMN coin_tag_id SET DEFAULT nextval('public.coin_tag_coin_tag_id_seq'::regclass);
+ALTER TABLE ONLY public.quote ALTER COLUMN id SET DEFAULT nextval('public.quote_id_seq'::regclass);
 
 
 --
--- Name: platform platform_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: tag id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.platform ALTER COLUMN platform_id SET DEFAULT nextval('public.platform_platform_id_seq'::regclass);
-
-
---
--- Name: quote quote_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.quote ALTER COLUMN quote_id SET DEFAULT nextval('public.quote_quote_id_seq'::regclass);
+ALTER TABLE ONLY public.tag ALTER COLUMN id SET DEFAULT nextval('public.tag_id_seq'::regclass);
 
 
 --
--- Name: tag tag_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: tag_ref id; Type: DEFAULT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.tag ALTER COLUMN tag_id SET DEFAULT nextval('public.tag_tag_id_seq'::regclass);
+ALTER TABLE ONLY public.tag_ref ALTER COLUMN id SET DEFAULT nextval('public.tag_ref_id_seq'::regclass);
 
 
 --
--- Name: coin coin_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: coin coin_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.coin
-    ADD CONSTRAINT coin_pk PRIMARY KEY (coin_id);
+    ADD CONSTRAINT coin_pkey PRIMARY KEY (id);
 
 
 --
--- Name: coin_tag coin_tag_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: coin coin_slug_key; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.coin_tag
-    ADD CONSTRAINT coin_tag_pk PRIMARY KEY (coin_tag_id);
+ALTER TABLE ONLY public.coin
+    ADD CONSTRAINT coin_slug_key UNIQUE (slug);
 
 
 --
--- Name: platform platform_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: market_stats market_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.market_stats
+    ADD CONSTRAINT market_stats_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: platform platform_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.platform
-    ADD CONSTRAINT platform_pk PRIMARY KEY (platform_id);
+    ADD CONSTRAINT platform_pkey PRIMARY KEY (id);
 
 
 --
--- Name: quote quote_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: platform platform_token_address_key; Type: CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.platform
+    ADD CONSTRAINT platform_token_address_key UNIQUE (token_address);
+
+
+--
+-- Name: quote quote_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.quote
-    ADD CONSTRAINT quote_pk PRIMARY KEY (quote_id);
+    ADD CONSTRAINT quote_pkey PRIMARY KEY (id);
 
 
 --
--- Name: tag tag_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tag tag_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.tag
-    ADD CONSTRAINT tag_pk PRIMARY KEY (tag_id);
+    ADD CONSTRAINT tag_pkey PRIMARY KEY (id);
 
 
 --
--- Name: coin coin_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tag_ref tag_ref_name_key; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.coin
-    ADD CONSTRAINT coin_fk0 FOREIGN KEY (platform_id) REFERENCES public.platform(platform_id);
-
-
---
--- Name: coin_tag coin_tag_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.coin_tag
-    ADD CONSTRAINT coin_tag_fk0 FOREIGN KEY (coin_id) REFERENCES public.coin(coin_id);
+ALTER TABLE ONLY public.tag_ref
+    ADD CONSTRAINT tag_ref_name_key UNIQUE (name);
 
 
 --
--- Name: coin_tag coin_tag_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tag_ref tag_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: nacho
 --
 
-ALTER TABLE ONLY public.coin_tag
-    ADD CONSTRAINT coin_tag_fk1 FOREIGN KEY (tag_id) REFERENCES public.tag(tag_id);
+ALTER TABLE ONLY public.tag_ref
+    ADD CONSTRAINT tag_ref_pkey PRIMARY KEY (id);
 
 
 --
--- Name: quote quote_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ix_market_stats_coin_id; Type: INDEX; Schema: public; Owner: nacho
+--
+
+CREATE INDEX ix_market_stats_coin_id ON public.market_stats USING btree (coin_id);
+
+
+--
+-- Name: ix_platform_platform_id; Type: INDEX; Schema: public; Owner: nacho
+--
+
+CREATE INDEX ix_platform_platform_id ON public.platform USING btree (platform_id);
+
+
+--
+-- Name: ix_quote_coin_id; Type: INDEX; Schema: public; Owner: nacho
+--
+
+CREATE INDEX ix_quote_coin_id ON public.quote USING btree (coin_id);
+
+
+--
+-- Name: ix_tag_coin_id; Type: INDEX; Schema: public; Owner: nacho
+--
+
+CREATE INDEX ix_tag_coin_id ON public.tag USING btree (coin_id);
+
+
+--
+-- Name: ix_tag_tag_id; Type: INDEX; Schema: public; Owner: nacho
+--
+
+CREATE INDEX ix_tag_tag_id ON public.tag USING btree (tag_id);
+
+
+--
+-- Name: market_stats market_stats_coin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.market_stats
+    ADD CONSTRAINT market_stats_coin_id_fkey FOREIGN KEY (coin_id) REFERENCES public.coin(id);
+
+
+--
+-- Name: platform platform_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.platform
+    ADD CONSTRAINT platform_id_fkey FOREIGN KEY (id) REFERENCES public.coin(id);
+
+
+--
+-- Name: platform platform_platform_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.platform
+    ADD CONSTRAINT platform_platform_id_fkey FOREIGN KEY (platform_id) REFERENCES public.coin(id);
+
+
+--
+-- Name: quote quote_coin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
 --
 
 ALTER TABLE ONLY public.quote
-    ADD CONSTRAINT quote_fk0 FOREIGN KEY (coin_id) REFERENCES public.coin(coin_id);
+    ADD CONSTRAINT quote_coin_id_fkey FOREIGN KEY (coin_id) REFERENCES public.coin(id);
+
+
+--
+-- Name: tag tag_coin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.tag
+    ADD CONSTRAINT tag_coin_id_fkey FOREIGN KEY (coin_id) REFERENCES public.coin(id);
+
+
+--
+-- Name: tag tag_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
+--
+
+ALTER TABLE ONLY public.tag
+    ADD CONSTRAINT tag_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tag_ref(id);
 
 
 --
