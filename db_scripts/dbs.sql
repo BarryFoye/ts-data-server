@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.0
+-- Dumped from database version 12.8
 -- Dumped by pg_dump version 14.0
 
 SET statement_timeout = 0;
@@ -27,7 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.coin (
     id integer NOT NULL,
     name character varying NOT NULL,
-    symbol character varying(10) NOT NULL,
+    symbol character varying(25) NOT NULL,
     slug character varying(50) NOT NULL,
     max_supply bigint,
     date_added timestamp without time zone
@@ -397,22 +397,6 @@ CREATE INDEX ix_tag_tag_id ON public.tag USING btree (tag_id);
 
 ALTER TABLE ONLY public.market_stats
     ADD CONSTRAINT market_stats_coin_id_fkey FOREIGN KEY (coin_id) REFERENCES public.coin(id);
-
-
---
--- Name: platform platform_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
---
-
-ALTER TABLE ONLY public.platform
-    ADD CONSTRAINT platform_id_fkey FOREIGN KEY (id) REFERENCES public.coin(id);
-
-
---
--- Name: platform platform_platform_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nacho
---
-
-ALTER TABLE ONLY public.platform
-    ADD CONSTRAINT platform_platform_id_fkey FOREIGN KEY (platform_id) REFERENCES public.coin(id);
 
 
 --
