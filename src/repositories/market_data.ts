@@ -9,3 +9,4 @@ export const getWeeklySnapshots = async (): Promise<Array<Coin>> => {
 	const marketDataRepository = getRepository(Coin);
 	return marketDataRepository.find();
 };
+
