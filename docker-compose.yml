@@ -9,3 +9,8 @@ services:
             - ./src:/app/src
         ports:
             - '3100:3100'
+        networks:
+            - integration_default # For dev environment this will need to be changed
+networks:
+    integration_default:
+        external: true
