@@ -9,3 +9,8 @@ services:
             - ./src:/app/src
         ports:
             - '3100:3100'
+        networks:
+            - integration_default
+networks:
+    integration_default:
+        external: true
